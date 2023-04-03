@@ -53,13 +53,14 @@ jobs:
         run: flit build
 
       - name: Stop if no bump
+        id: no-bump
         continue-on-error: true
         # will fail if not on exact tag
         run: git describe --tags --exact-match
 
       - name: Create Release Draft
         uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
-        if: success()
+        if: steps.no-bump.outcome == 'success'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
