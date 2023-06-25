@@ -37,6 +37,16 @@ jobs:
           python -m pip install --upgrade pip
           pip install .[release]
 
+      - name: DEBUG
+        env:
+          DEBUG_GH_REPO: ${{ github.repository }}
+          DEBUG_REF: ${{github.event.pull_request.head.ref}}
+          DEBUG_FULL_NAME: ${{github.event.pull_request.head.repo.full_name}}
+        run: |
+          echo "github.repository: $DEBUG_GH_REPO"
+          echo "github.event.pull_request.head.ref: $DEBUG_REF"
+          echo "github.event.pull_request.head.repo.full_name: $DEBUG_FULL_NAME"
+
       - name: Create bump and changelog
         id: cz
         if: github.repository != 'tilde-lab/metis-client'
